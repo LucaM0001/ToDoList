@@ -7,7 +7,7 @@ import Task from "./Task/Task";
 class Tasks extends Component {
   state = {
     tasks: [],
-    lastIdTask: 1,
+    lastIdTask: Date.now(),
     filter: "all",
   };
 
@@ -35,7 +35,7 @@ class Tasks extends Component {
     this.setState((oldState) => {
       return {
         tasks: newTasks,
-        lastIdTask: oldState.lastIdTask + 1,
+        lastIdTask: Date.now(),
       };
     });
 
@@ -60,14 +60,20 @@ class Tasks extends Component {
 
     return (
       <ul className="list-group">
-        {tasksArray.map((task) => (
-          <Task
-            taskState={this.handleChangeTaskState}
-            key={task.id}
-            deleteTask={this.handleDeleteTask}
-            updateTask={this.handleUpdateTask}
-            {...task}
-          />
+        {tasksArray.map((task, index) => (
+          <li
+            className="list-group-item"
+            key={Math.floor(Math.random() * 4000)}
+          >
+            <Task
+              taskState={this.handleChangeTaskState}
+              deleteTask={this.handleDeleteTask}
+              showUpdateForm={this.handleShowUpdateForm}
+              updateTask={this.handleUpdateTask}
+              isUpdate={task.update}
+              {...task}
+            />
+          </li>
         ))}
       </ul>
     );
@@ -80,8 +86,27 @@ class Tasks extends Component {
     }
   };
 
-  handleUpdateTask = (id) => {
-    console.log(id);
+  handleUpdateTask = (id, newTitle) => {
+    const newTask = { ...this.state.tasks.filter((task) => task.id === id) };
+    const newTaskIndex = this.state.tasks.findIndex((task) => task.id === id);
+    newTask.title = newTitle;
+    newTask.update = false;
+
+    const newTasks = [...this.state.tasks];
+    newTasks[newTaskIndex] = newTask;
+
+    this.setState({ tasks: newTasks });
+  };
+
+  handleShowUpdateForm = (id) => {
+    const newTask = { ...this.state.tasks.find((task) => task.id === id) };
+    newTask.update = true;
+
+    const newTaskIndex = this.state.tasks.findIndex((task) => task.id === id);
+    const newTasks = [...this.state.tasks];
+    newTasks[newTaskIndex] = newTask;
+
+    this.setState({ tasks: newTasks });
   };
 
   render() {

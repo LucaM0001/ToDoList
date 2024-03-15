@@ -1,5 +1,6 @@
 import Button from "../../../components/Button/Button";
 import { Component } from "react";
+import FormUpdate from "../Form/FormUpdate";
 
 class Task extends Component {
   state = {
@@ -27,23 +28,28 @@ class Task extends Component {
     );
 
     return (
-      <li className="list-group-item">
-        {inputCheckBox}
-        {this.state.title}
-        <Button
-          typeBtn="btn-warning btn-sm float-end"
-          css="mx-2"
-          clic={() => this.props.updateTask(this.state.id)}
-        >
-          <i className="fa fa-edit" aria-hidden="true"></i>
-        </Button>
-        <Button
-          typeBtn="btn-danger btn-sm float-end"
-          clic={() => this.props.deleteTask(this.state.id)}
-        >
-          <i className="fa fa-trash" aria-hidden="true"></i>
-        </Button>
-      </li>
+      <>
+        <>
+          {inputCheckBox}
+          {this.state.title}
+          <Button
+            typeBtn="btn-warning btn-sm float-end"
+            css="mx-2"
+            clic={() => this.props.showUpdateForm(this.state.id)}
+          >
+            <i className="fa fa-edit" aria-hidden="true"></i>
+          </Button>
+          <Button
+            typeBtn="btn-danger btn-sm float-end"
+            clic={() => this.props.deleteTask(this.state.id)}
+          >
+            <i className="fa fa-trash" aria-hidden="true"></i>
+          </Button>
+        </>
+        {this.props.isUpdate && (
+          <FormUpdate update={this.props.updateTask} {...this.state} />
+        )}
+      </>
     );
   }
 }
