@@ -23,7 +23,11 @@ class FormUpdate extends Component {
             )}
           </div>
           <div className="col-4">
-            <Button typeBtn="btn-warning" clic={this.props.handleSubmit}>
+            <Button
+              type="submit"
+              typeBtn="btn-warning"
+              clic={this.props.handleSubmit}
+            >
               <i className="fa fa-edit" aria-hidden="true"></i>
             </Button>
           </div>

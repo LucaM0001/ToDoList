@@ -24,7 +24,11 @@ class Form extends Component {
             )}
           </div>
           <div className="col-4">
-            <Button typeBtn="btn-success" clic={this.props.handleSubmit}>
+            <Button
+              type="submit"
+              typeBtn="btn-success"
+              clic={this.props.handleSubmit}
+            >
               <i className="fa fa-plus" aria-hidden="true"></i>
             </Button>
           </div>
