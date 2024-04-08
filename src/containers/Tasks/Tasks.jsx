@@ -3,6 +3,7 @@ import Title from "../../components/Title/Tilte";
 import Form from "./Form/FormAdd";
 import Filter from "./Filter/Filter";
 import Task from "./Task/Task";
+import axios from "axios";
 
 class Tasks extends Component {
   state = {
@@ -10,6 +11,16 @@ class Tasks extends Component {
     lastIdTask: Date.now(),
     filter: "all",
   };
+
+  componentDidMount() {
+    axios
+      .get("https://todolist-c84fd-default-rtdb.firebaseio.com/tasks.json")
+      .then((response) => {
+        const tasksArray = Object.values(response.data);
+        this.setState({ tasks: tasksArray });
+      })
+      .catch((err) => console.log(err));
+  }
 
   handleChangeTaskState = (event, id) => {
     const newTask = { ...this.state.tasks.find((task) => task.id === id) };
@@ -38,6 +49,11 @@ class Tasks extends Component {
         lastIdTask: Date.now(),
       };
     });
+
+    axios.post(
+      "https://todolist-c84fd-default-rtdb.firebaseio.com/tasks.json",
+      newTask
+    );
 
     document.getElementById("form").reset();
   };
